@@ -14,4 +14,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\01.Domain\Core\App.Domain.Core\App.Domain.Core.csproj" />
+    <ProjectReference Include="..\..\..\01.Domain\Services\App.Domain.AppServices\App.Domain.AppServices.csproj" />
+  </ItemGroup>
+
 </Project>
