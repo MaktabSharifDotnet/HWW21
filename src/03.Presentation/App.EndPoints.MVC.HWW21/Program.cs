@@ -1,5 +1,11 @@
+using App.Domain.Core.Contracts.AuthorAgg.AppService;
+using App.Domain.Core.Contracts.AuthorAgg.Repository;
+using App.Domain.Core.Contracts.AuthorAgg.Service;
+using App.Domain.Services.AuthorAgg;
+using App.Infra.Data.Repos.Ef.AuthorAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
               options.UseSqlServer("Server=DESKTOP-M2BLLND\\SQLEXPRESS;Database=HWW21;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;"));
-
+builder.Services.AddScoped<IAuthorRepository , AuthorRepository>();
+builder.Services.AddScoped<IAuthorService , AuthorService>();
+builder.Services.AddScoped<IAuthorAppService , AuthorAppService>();
 
 var app = builder.Build();
 
