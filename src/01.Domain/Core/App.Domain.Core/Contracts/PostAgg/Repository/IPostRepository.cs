@@ -1,0 +1,14 @@
+﻿using App.Domain.Core.Dtos.PostAgg;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace App.Domain.Core.Contracts.PostAgg.Repository
+{
+    public interface IPostRepository
+    {
+        public List<PostDto> GetForAuthor(int AuthorId);
+    }
+}

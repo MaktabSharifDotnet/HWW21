@@ -8,6 +8,6 @@ namespace App.Domain.Core.Entities
 {
     public static class LocalStorage
     {
-        public static Author? AuthorLogin { get; set; }
+        public static int AuthorLoginId { get; set; }
     }
 }

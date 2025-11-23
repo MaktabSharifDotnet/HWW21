@@ -19,7 +19,7 @@ namespace App.Domain.Services.AuthorAgg
                throw new Exception("Invalid username or password");
             }
 
-            LocalStorage.AuthorLogin = author;
+            LocalStorage.AuthorLoginId = author.Id;
             return author.Id;
         }
 

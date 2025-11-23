@@ -1,0 +1,26 @@
+﻿@model AuthenticationViewModel
+
+@{
+}
+
+@if (TempData["Warning"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Warning"]
+    </div>
+}
+<h1>صفحه لاگین</h1>
+
+<form method="post">
+
+    <label asp-for="Username">نام کاربری</label>
+    <input type="text" asp-for="Username" placeholder="aiizadjoo">
+    <span asp-validation-for ="Username" style="color:red"></span>
+
+    <label asp-for="Password">رمز عبور</label>
+    <input type="text" asp-for="Password" placeholder="ali1234">
+    <span asp-validation-for="Password" style="color:red"></span>
+
+    <button type="submit">ورود</button>
+
+</form>

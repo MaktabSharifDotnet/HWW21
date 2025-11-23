@@ -1,0 +1,109 @@
+﻿@model AuthorDashboardViewModel
+@{
+}
+
+@{
+    ViewData["Title"] = "داشبورد نویسنده";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">👋 خوش آمدید به پنل مدیریت</h2>
+
+    <div class="row">
+        
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">📂 دسته‌بندی‌های من</h5>
+                    <a asp-controller="Category" asp-action="Create" class="btn btn-sm btn-light text-primary">
+                        + دسته بندی جدید
+                    </a>
+                </div>
+                <div class="card-body">
+                    @if (Model.CategoryDtos != null && Model.CategoryDtos.Any())
+                    {
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>نام دسته</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var cat in Model.CategoryDtos)
+                                {
+                                    <tr>
+                                        <td>@cat.Name</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-warning">ویرایش</a>
+                                            <a href="#" class="btn btn-sm btn-danger">حذف</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center">هنوز دسته‌بندی نساخته‌اید.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">📝 پست‌های من</h5>
+                    <a asp-controller="Post" asp-action="Create" class="btn btn-sm btn-light text-primary">
+                        + پست جدید
+                    </a>
+                </div>
+                <div class="card-body">
+                    @if (Model.PostDtos != null && Model.PostDtos.Any())
+                    {
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>تصویر</th> <th>عنوان</th>
+                                    <th>دسته</th>
+                                    <th>تاریخ</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var post in Model.PostDtos)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if(!string.IsNullOrEmpty(post.ImagePost))
+                                            {
+                                                <img src="~/images/posts/@post.ImagePost" width="40" height="40" class="rounded-circle" />
+                                            }
+                                            else
+                                            {
+                                                <span>-</span>
+                                            }
+                                        </td>
+                                        <td>@post.Title</td>
+                                        <td><span class="badge bg-secondary">@post.CategoryName</span></td>
+                                        <td>@post.CreatedAt.ToShortDateString()</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-warning">ویرایش</a>
+                                            <a href="#" class="btn btn-sm btn-danger">حذف</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center">هنوز پستی ننوشته‌اید.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

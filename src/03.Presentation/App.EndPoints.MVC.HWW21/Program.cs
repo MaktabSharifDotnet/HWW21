@@ -1,8 +1,20 @@
+using App.Domain.AppServices.CategoryAgg;
+using App.Domain.AppServices.PostAgg;
 using App.Domain.Core.Contracts.AuthorAgg.AppService;
 using App.Domain.Core.Contracts.AuthorAgg.Repository;
 using App.Domain.Core.Contracts.AuthorAgg.Service;
+using App.Domain.Core.Contracts.CategoryAgg.AppService;
+using App.Domain.Core.Contracts.CategoryAgg.Repository;
+using App.Domain.Core.Contracts.CategoryAgg.Service;
+using App.Domain.Core.Contracts.PostAgg.AppService;
+using App.Domain.Core.Contracts.PostAgg.Repository;
+using App.Domain.Core.Contracts.PostAgg.Service;
 using App.Domain.Services.AuthorAgg;
+using App.Domain.Services.CategoryAgg;
+using App.Domain.Services.PostAgg;
 using App.Infra.Data.Repos.Ef.AuthorAgg;
+using App.Infra.Data.Repos.Ef.CategoryAgg;
+using App.Infra.Data.Repos.Ef.PostAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +29,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IAuthorRepository , AuthorRepository>();
 builder.Services.AddScoped<IAuthorService , AuthorService>();
 builder.Services.AddScoped<IAuthorAppService , AuthorAppService>();
+builder.Services.AddScoped<IAuthorAppService , AuthorAppService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
+
+
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IPostAppService, PostAppService>();
+
 
 var app = builder.Build();
 
