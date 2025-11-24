@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace App.Infra.Data.Repos.Ef.CategoryAgg
@@ -26,6 +27,29 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
             return category.Id;
         }
 
+        public int Delete(int categoryId)
+        {
+            Category? category = _context.Categories.FirstOrDefault(c => c.Id == categoryId);
+            if (category == null)
+            {
+                throw new Exception("همچین دسته بندی ای موجود نیست.");
+            }
+            category.IsDeleted = true;
+            return _context.SaveChanges();
+        }
+
+        public int Edit(CategoryDto categoryDto)
+        {
+            Category? categoryDb=_context.Categories.FirstOrDefault(c=>c.Id==categoryDto.Id);
+            if (categoryDb == null) 
+            {
+                throw new Exception("همچین کتگوری ای موجود نیست.");
+            }
+            categoryDb.Name = categoryDto.Name;
+            return _context.SaveChanges();
+
+        }
+
         public List<CategoryDto> GetAllForAuthor(int authorId)
         {
 
@@ -38,9 +62,23 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
                    }).ToList();
         }
 
+        public CategoryDto? GetById(int categoryId)
+        {
+            return _context.Categories.Where(c=>c.Id==categoryId)
+                  .Select(c=>new CategoryDto 
+                  {
+                     Id = c.Id,
+                     Name = c.Name,
+                  })
+                 .FirstOrDefault();
+        }
+
         public bool IsExistName(string name)
         {
             return _context.Categories.Any(c=>c.Name.ToLower() == name.ToLower());
         }
+
+
+
     }
 }

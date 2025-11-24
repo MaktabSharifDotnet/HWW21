@@ -12,5 +12,9 @@ namespace App.Domain.Core.Contracts.CategoryAgg.Service
         public List<CategoryDto> GetAllForAuthor(int authorId);
 
         public int Create(CreateCategoryDto createCategoryDto);
+        public CategoryDto GetById(int categoryId);
+        public int Edit(CategoryDto categoryDto);
+
+        public int Delete(int categoryId);
     }
 }

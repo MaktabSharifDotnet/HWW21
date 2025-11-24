@@ -16,9 +16,24 @@ namespace App.Domain.AppServices.CategoryAgg
             return categoryService.Create(createCategoryDto);
         }
 
+        public int Delete(int categoryId)
+        {
+          return categoryService.Delete(categoryId);
+        }
+
+        public int Edit(CategoryDto categoryDto)
+        {
+           return categoryService.Edit(categoryDto);
+        }
+
         public List<CategoryDto> GetAllForAuthor(int authorId)
         {
            return categoryService.GetAllForAuthor(authorId);
+        }
+
+        public CategoryDto GetById(int categoryId)
+        {
+           return categoryService.GetById(categoryId);
         }
     }
 }

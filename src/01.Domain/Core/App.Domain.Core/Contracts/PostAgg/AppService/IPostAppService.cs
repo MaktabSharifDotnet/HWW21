@@ -10,5 +10,7 @@ namespace App.Domain.Core.Contracts.PostAgg.AppService
     public interface IPostAppService
     {
         public List<PostDto> GetAllForAuthor(int AuthorId);
+
+        public int Create(CreatePostDto createPostDto);
     }
 }

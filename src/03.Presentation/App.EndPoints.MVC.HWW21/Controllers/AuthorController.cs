@@ -1,5 +1,7 @@
-﻿using App.Domain.Core.Contracts.CategoryAgg.AppService;
+﻿using App.Domain.Core.Contracts.AuthorAgg.AppService;
+using App.Domain.Core.Contracts.CategoryAgg.AppService;
 using App.Domain.Core.Contracts.PostAgg.AppService;
+using App.Domain.Core.Dtos.AuthorAgg;
 using App.Domain.Core.Dtos.CategoryAgg;
 using App.Domain.Core.Dtos.PostAgg;
 using App.Domain.Core.Entities;
@@ -9,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.EndPoints.MVC.HWW21.Controllers
 {
     public class AuthorController(ICategoryAppService categoryAppService 
-        , IPostAppService postAppService) : Controller
+        , IPostAppService postAppService , IAuthorAppService authorAppService) : Controller
     {
       
         public IActionResult Index()
@@ -22,14 +24,26 @@ namespace App.EndPoints.MVC.HWW21.Controllers
 
             List<CategoryDto> categoryDtos = categoryAppService.GetAllForAuthor(LocalStorage.AuthorLoginId);
             List<PostDto> postDtos = postAppService.GetAllForAuthor(LocalStorage.AuthorLoginId);
-
-            AuthorDashboardViewModel authorDashboardViewModel = new AuthorDashboardViewModel() 
+            try
             {
-                CategoryDtos = categoryDtos,
-                PostDtos = postDtos,
-            };
+                AuthorInfoDto? authorInfoDto=authorAppService.GetById(LocalStorage.AuthorLoginId);
+                AuthorDashboardViewModel authorDashboardViewModel = new AuthorDashboardViewModel()
+                {
+                    CategoryDtos = categoryDtos,
+                    PostDtos = postDtos,
+                    AuthorName = authorInfoDto!.Username,
+                    AuthorProfileImage = authorInfoDto.ProfileImagePath
+                };
 
-            return View(authorDashboardViewModel);
+                return View(authorDashboardViewModel);
+            }
+            catch (Exception ex) 
+            {
+                TempData["Warning"] = ex.Message;
+                return RedirectToAction("Login" , "Authentication");
+            }
+           
+       
         }
     }
 }

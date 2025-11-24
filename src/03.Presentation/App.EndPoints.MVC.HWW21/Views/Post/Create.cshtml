@@ -1,0 +1,81 @@
+﻿@model App.EndPoints.MVC.HWW21.Models.CreatePostViewModel
+@{
+    ViewData["Title"] = "افزودن پست جدید";
+}
+
+<link rel="stylesheet" href="~/css/custom-style.css" />
+
+<div class="container mt-4">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Warning"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+            @TempData["Warning"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white py-3">
+            <h3 class="mb-0 h5">📝 نوشتن پست جدید</h3>
+        </div>
+        <div class="card-body p-4">
+
+            <form method="post" enctype="multipart/form-data">
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-bold">عنوان پست</label>
+                            <input asp-for="Title" class="form-control form-control-lg" placeholder="تیتر جذاب..." />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-bold">متن اصلی</label>
+                            <textarea asp-for="Description" class="form-control" rows="8" placeholder="هر چه میخواهید بنویسید..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded border">
+
+                            <div class="mb-3">
+                                <label asp-for="CategoryId" class="form-label fw-bold">دسته‌بندی</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                    <option value="">-- انتخاب کنید --</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ImagePost" class="form-label fw-bold">تصویر شاخص</label>
+                                <input asp-for="ImagePost" type="file" class="form-control" accept="image/*" />
+                                <span asp-validation-for="ImagePost" class="text-danger small"></span>
+                                <small class="text-muted d-block mt-1">بهترین سایز: 800x600 پیکسل</small>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg"> انتشار پست</button>
+                            <a asp-controller="Author" asp-action="Index" class="btn btn-outline-secondary">انصراف و بازگشت</a>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

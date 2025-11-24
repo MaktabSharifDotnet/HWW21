@@ -23,9 +23,29 @@ namespace App.Domain.Services.CategoryAgg
            return categoryRepository.Create(createCategoryDto);
         }
 
+        public int Delete(int categoryId)
+        {
+           return categoryRepository.Delete(categoryId);
+        }
+
+        public int Edit(CategoryDto categoryDto)
+        {
+            return  categoryRepository.Edit(categoryDto);
+        }
+
         public List<CategoryDto> GetAllForAuthor(int authorId)
         {
            return  categoryRepository.GetAllForAuthor(authorId);
+        }
+
+        public CategoryDto GetById(int categoryId)
+        {
+            CategoryDto? categoryDto = categoryRepository.GetById(categoryId);
+            if (categoryDto==null)
+            {
+                throw new Exception("همچیین کتگوری موجود نیست.");
+            }
+            return categoryDto;
         }
     }
 }

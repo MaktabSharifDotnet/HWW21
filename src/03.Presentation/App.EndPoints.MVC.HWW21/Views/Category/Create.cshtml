@@ -1,13 +1,26 @@
 ﻿@model CreateCategoryViewModel
 @{
 }
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
 
+@if (TempData["Warning"]!= null)
+{
+    <div class="alert alert-danger">
+        @TempData["Warning"]
+    </div>
+}
 <h1>ایجاد دسته بندی</h1>
 
 <form method="post">
 
    <label asp-for="Name">نام دسته بندی</label>
-   <input  asp-for="Name" type="text">
+   <input  asp-for="Name"  type="text">
+   <span asp-validation-for="Name" style="color:red"></span>
 
    <button type="submit">ذخیره</button>
 

@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Contracts.AuthorAgg.Repository;
+using App.Domain.Core.Dtos.AuthorAgg;
 using App.Domain.Core.Entities;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using System;
@@ -14,6 +15,17 @@ namespace App.Infra.Data.Repos.Ef.AuthorAgg
         public Author? GetAuthorByUsername(string username)
         {
            return _context.Authors.FirstOrDefault(a => a.Username == username);
+        }
+
+        public AuthorInfoDto? GetById(int authorId)
+        {
+          return  _context.Authors.Where(a=>a.Id==authorId)
+                   .Select(a=>new AuthorInfoDto 
+                   {
+                      Username = a.Username,
+                      ProfileImagePath = a.ProfileImagePath
+
+                   }).FirstOrDefault();
         }
 
         public bool IsExistUsername(string username)

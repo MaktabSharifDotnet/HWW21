@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contracts.AuthorAgg.Repository;
 using App.Domain.Core.Contracts.AuthorAgg.Service;
+using App.Domain.Core.Dtos.AuthorAgg;
 using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,16 @@ namespace App.Domain.Services.AuthorAgg
 {
     public class AuthorService(IAuthorRepository authorRepository) : IAuthorService
     {
+        public AuthorInfoDto? GetById(int authorId)
+        {
+            AuthorInfoDto? authorInfoDto=authorRepository.GetById(authorId);
+            if (authorInfoDto == null) 
+            {
+                throw new Exception("نویسنده ای با این ایدی موجود نیست.");
+            }
+            return authorInfoDto;
+        }
+
         public int Login(string username, string password)
         {
             Author? author=authorRepository.GetAuthorByUsername(username);

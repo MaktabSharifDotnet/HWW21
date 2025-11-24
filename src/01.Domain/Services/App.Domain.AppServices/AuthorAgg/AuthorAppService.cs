@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Contracts.AuthorAgg.AppService;
 using App.Domain.Core.Contracts.AuthorAgg.Repository;
+using App.Domain.Core.Dtos.AuthorAgg;
 using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,11 @@ namespace App.Domain.Core.Contracts.AuthorAgg.Service
 {
     public class AuthorAppService(IAuthorService authorService) : IAuthorAppService
     {
+        public AuthorInfoDto? GetById(int authorId)
+        {
+          return  authorService.GetById(authorId);
+        }
+
         public int Login(string username, string password)
         {
           return authorService.Login(username, password);

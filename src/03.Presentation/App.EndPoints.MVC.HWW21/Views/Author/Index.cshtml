@@ -1,16 +1,41 @@
-﻿@model AuthorDashboardViewModel
-@{
-}
-
+﻿@model App.EndPoints.MVC.HWW21.Models.AuthorDashboardViewModel
 @{
     ViewData["Title"] = "داشبورد نویسنده";
 }
+@if (TempData["Warning"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+        @TempData["Warning"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+<link rel="stylesheet" href="~/css/custom-style.css" />
 
 <div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 author-profile-header">
+        <div class="d-flex align-items-center gap-3">
+            @if (!string.IsNullOrEmpty(Model.AuthorProfileImage))
+            {
+                <img src="~/images/profiles/@Model.AuthorProfileImage" class="author-avatar-large img-fit" alt="Profile" />
+            }
+            else
+            {
+                <img src="https://via.placeholder.com/60" class="author-avatar-large img-fit" alt="Default" />
+            }
+
+            <div class="author-info">
+                <h4 class="mb-0">@Model.AuthorName</h4>
+                <span class="text-muted small">نام نویسنده </span>
+            </div>
+        </div>
+
+
+    </div>
     <h2 class="mb-4">👋 خوش آمدید به پنل مدیریت</h2>
 
     <div class="row">
-        
+
         <div class="col-md-5">
             <div class="card shadow-sm">
                 <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
@@ -35,8 +60,22 @@
                                     <tr>
                                         <td>@cat.Name</td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-warning">ویرایش</a>
-                                            <a href="#" class="btn btn-sm btn-danger">حذف</a>
+                                            <div class="d-flex gap-2">
+                                                <a asp-controller="Category"
+                                                   asp-action="Edit"
+                                                   asp-route-id="@cat.Id"
+                                                   class="btn btn-sm btn-warning">ویرایش</a>
+
+                                                <form asp-controller="Category" asp-action="Delete" asp-route-categoryId="@cat.Id" method="post">
+                                                    
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('آیا از حذف دسته‌بندی @cat.Name مطمئن هستید؟');">
+                                                        حذف
+                                                    </button>
+
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 }
@@ -65,7 +104,8 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>تصویر</th> <th>عنوان</th>
+                                    <th>تصویر</th>
+                                    <th>عنوان</th>
                                     <th>دسته</th>
                                     <th>تاریخ</th>
                                     <th>عملیات</th>
@@ -76,9 +116,9 @@
                                 {
                                     <tr>
                                         <td>
-                                            @if(!string.IsNullOrEmpty(post.ImagePost))
+                                            @if (!string.IsNullOrEmpty(post.ImagePost))
                                             {
-                                                <img src="~/images/posts/@post.ImagePost" width="40" height="40" class="rounded-circle" />
+                                                <img src="~/images/posts/@post.ImagePost" class="post-thumb img-fit" />
                                             }
                                             else
                                             {

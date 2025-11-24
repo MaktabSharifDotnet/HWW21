@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Entities;
+﻿using App.Domain.Core.Dtos.AuthorAgg;
+using App.Domain.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace App.Domain.Core.Contracts.AuthorAgg.Repository
     public interface IAuthorRepository
     {
        public Author? GetAuthorByUsername(string username);
+       public AuthorInfoDto? GetById(int authorId);
+
        public bool IsExistUsername(string username);
        public int Register(Author author);
     }

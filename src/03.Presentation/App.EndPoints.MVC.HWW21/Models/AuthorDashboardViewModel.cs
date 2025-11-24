@@ -8,5 +8,8 @@ namespace App.EndPoints.MVC.HWW21.Models
     {
         public List<PostDto> PostDtos { get; set; }
         public List<CategoryDto> CategoryDtos { get; set; }
+
+        public string AuthorName { get; set; }
+        public string? AuthorProfileImage { get; set; }
     }
 }

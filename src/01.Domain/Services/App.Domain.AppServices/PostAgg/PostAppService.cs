@@ -11,6 +11,11 @@ namespace App.Domain.AppServices.PostAgg
 {
     public class PostAppService(IPostService  postService ) : IPostAppService
     {
+        public int Create(CreatePostDto createPostDto)
+        {
+            return postService.Create(createPostDto);   
+        }
+
         public List<PostDto> GetAllForAuthor(int AuthorId)
         {
             return postService.GetForAuthor(AuthorId);

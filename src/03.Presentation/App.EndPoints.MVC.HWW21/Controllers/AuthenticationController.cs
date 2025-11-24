@@ -56,7 +56,7 @@ namespace App.EndPoints.MVC.HWW21.Controllers
             {
                 return View(authenticationViewModel);
             }
-            string? profileImage = authenticationViewModel.ProfileImage.UploadFile();
+            string? profileImage = authenticationViewModel.ProfileImage.UploadFile("Profiles");
             try
             {
                 int authorId=authorAppService.Register(authenticationViewModel.Username, authenticationViewModel.Password, profileImage);
