@@ -16,6 +16,22 @@ namespace App.Domain.Services.PostAgg
             return postRepository.Create(createPostDto);
         }
 
+        public int Edit(UpdatePostInfoDto updatePostInfoDto)
+        {
+           return postRepository.Edit(updatePostInfoDto);
+        }
+
+        public UpdatePostInfoDto GetById(int postId)
+        {
+            UpdatePostInfoDto? updatePostInfoDto = postRepository.GetById(postId);
+            if (updatePostInfoDto == null) 
+            {
+                throw new Exception("همچین پستی موجود نیست.");
+            }
+
+            return updatePostInfoDto;
+        }
+
         public List<PostDto> GetForAuthor(int AuthorId)
         {
            return postRepository.GetForAuthor(AuthorId);

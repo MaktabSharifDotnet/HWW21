@@ -1,0 +1,91 @@
+﻿@model App.EndPoints.MVC.HWW21.Models.UpdatePostViewModel
+@{
+    ViewData["Title"] = "ویرایش پست";
+}
+
+<link rel="stylesheet" href="~/css/custom-style.css" />
+
+<div class="container mt-4">
+
+    @if (TempData["Warning"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Warning"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-warning text-dark py-3">
+            <h3 class="mb-0 h5">✏️ ویرایش پست: @Model.Title</h3>
+        </div>
+        <div class="card-body p-4">
+
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="PostId" />
+                <input type="hidden" asp-for="ImagePostOld" />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-bold"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label fw-bold"></label>
+                            <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                <option value="">-- انتخاب دسته‌بندی --</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-bold"></label>
+                            <textarea asp-for="Description" class="form-control" rows="6"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded border text-center">
+                            <label class="form-label fw-bold mb-3">تصویر فعلی پست</label>
+
+                            <div class="mb-3">
+                                @if (!string.IsNullOrEmpty(Model.ImagePostOld))
+                                {
+                                    <img src="~/images/posts/@Model.ImagePostOld" class="img-fluid rounded shadow-sm" style="max-height: 200px;" alt="Current Image" />
+                                }
+                                else
+                                {
+                                    <div class="alert alert-secondary p-2">بدون تصویر</div>
+                                }
+                            </div>
+
+                            <hr />
+
+                            <label asp-for="ImagePost" class="form-label fw-bold text-primary">تغییر تصویر (اختیاری)</label>
+                            <input asp-for="ImagePost" type="file" class="form-control form-control-sm" accept="image/*" />
+                            <span asp-validation-for="ImagePost" class="text-danger small"></span>
+                            <small class="text-muted d-block mt-2" style="font-size: 0.8rem;">
+                                * اگر فایلی انتخاب نکنید، تصویر فعلی باقی می‌ماند.
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-warning btn-lg text-dark">💾 ذخیره تغییرات</button>
+                            <a asp-controller="Author" asp-action="Index" class="btn btn-outline-secondary">انصراف</a>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

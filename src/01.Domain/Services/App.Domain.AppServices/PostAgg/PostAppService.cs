@@ -16,9 +16,19 @@ namespace App.Domain.AppServices.PostAgg
             return postService.Create(createPostDto);   
         }
 
+        public int Edit(UpdatePostInfoDto updatePostInfoDto)
+        {
+           return postService.Edit(updatePostInfoDto);
+        }
+
         public List<PostDto> GetAllForAuthor(int AuthorId)
         {
             return postService.GetForAuthor(AuthorId);
+        }
+
+        public UpdatePostInfoDto GetById(int postId)
+        {
+           return postService.GetById(postId);
         }
     }
 }

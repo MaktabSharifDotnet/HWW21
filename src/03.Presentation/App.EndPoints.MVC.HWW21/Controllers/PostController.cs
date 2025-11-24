@@ -68,5 +68,92 @@ namespace App.EndPoints.MVC.HWW21.Controllers
             }
             
         }
+
+        public IActionResult Edit(int id) 
+        {
+
+            if (LocalStorage.AuthorLoginId == 0)
+            {
+                return RedirectToAction("Login", "Authentication");
+            }
+            try
+            {
+                UpdatePostInfoDto updatePostInfoDto = postAppService.GetById(id);
+                var categories = categoryAppService.GetAllForAuthor(LocalStorage.AuthorLoginId);
+                ViewBag.Categories = new SelectList(categories, "Id", "Name", updatePostInfoDto.CategoryId);
+                UpdatePostViewModel updatePostViewModel = new UpdatePostViewModel()
+                {
+                    PostId = updatePostInfoDto.Id,
+                    Title = updatePostInfoDto.Title,
+                    Description = updatePostInfoDto.Description,
+                    ImagePostOld = updatePostInfoDto.ImagePost,
+                    CategoryId = updatePostInfoDto.CategoryId,
+                };
+
+                return View(updatePostViewModel);
+            }
+            catch (Exception ex) 
+            {
+                TempData["Warning"] = ex.Message;
+                return RedirectToAction("Index", "Author");
+            }
+
+  
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(UpdatePostViewModel  updatePostViewModel) 
+        {
+            if (!ModelState.IsValid)
+            {
+                var categories = categoryAppService.GetAllForAuthor(LocalStorage.AuthorLoginId);
+                ViewBag.Categories = new SelectList(categories, "Id", "Name" , updatePostViewModel.CategoryId);
+                return View(updatePostViewModel);
+            }
+            try 
+            {
+                UpdatePostInfoDto updatePostInfoDto = new UpdatePostInfoDto()
+                {
+                    Id = updatePostViewModel.PostId,
+                    Title = updatePostViewModel.Title,
+                    Description = updatePostViewModel.Description,
+                    CreatedAt = DateTime.Now,
+                    
+                    AuthorId = LocalStorage.AuthorLoginId,
+                    CategoryId = updatePostViewModel.CategoryId,
+                };
+                if (updatePostViewModel.ImagePost!=null)
+                {
+                    string newImagePath= updatePostViewModel.ImagePost.UploadFile("Posts")!;
+                    updatePostInfoDto.ImagePost = newImagePath;
+                }
+                else 
+                {
+                    updatePostInfoDto.ImagePost = updatePostViewModel.ImagePostOld;
+                }
+
+
+               int result= postAppService.Edit(updatePostInfoDto);
+                if (result < 0) 
+                {
+                    var categories = categoryAppService.GetAllForAuthor(LocalStorage.AuthorLoginId);
+                    ViewBag.Categories = new SelectList(categories, "Id", "Name", updatePostViewModel.CategoryId);
+                    TempData["Warning"] = "فرآیند ادیت با خطا روبرو شد لطفا دوباره تلاش کنید";
+                    return View(updatePostViewModel);
+                }
+
+                return RedirectToAction("index", "Author");
+            }
+            catch(Exception ex) 
+            {
+                var categories = categoryAppService.GetAllForAuthor(LocalStorage.AuthorLoginId);
+                ViewBag.Categories = new SelectList(categories, "Id", "Name", updatePostViewModel.CategoryId);
+                TempData["Warning"] = ex.Message;
+                return View(updatePostViewModel);
+            }
+             
+        }
+
     }
 }

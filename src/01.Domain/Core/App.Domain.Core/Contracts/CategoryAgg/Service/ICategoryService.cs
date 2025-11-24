@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Dtos.CategoryAgg;
+using App.Domain.Core.Dtos.PostAgg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace App.Domain.Core.Contracts.CategoryAgg.Service
         public int Create(CreateCategoryDto createCategoryDto);
         public CategoryDto GetById(int categoryId);
         public int Edit(CategoryDto categoryDto);
+
+      
 
         public int Delete(int categoryId);
     }

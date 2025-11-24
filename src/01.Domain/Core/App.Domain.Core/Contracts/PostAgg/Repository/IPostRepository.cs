@@ -11,5 +11,9 @@ namespace App.Domain.Core.Contracts.PostAgg.Repository
     {
         public List<PostDto> GetForAuthor(int AuthorId);
         public int Create(CreatePostDto createPostDto);
+
+        public UpdatePostInfoDto? GetById(int postId);
+
+        public int Edit(UpdatePostInfoDto updatePostInfoDto);
     }
 }
