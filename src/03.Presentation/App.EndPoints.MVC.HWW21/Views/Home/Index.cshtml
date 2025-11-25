@@ -1,8 +1,127 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using App.Domain.Core.Dtos.CategoryAgg
+@using App.Domain.Core.Dtos.PostAgg
+@model List<PostInfoDto>
+
+@{
+    ViewData["Title"] = "مکتب وبلاگ";
+   
+    var categories = ViewBag.Categories as List<CategoryDto>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<link rel="stylesheet" href="~/css/home-style.css" />
+
+
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4 fw-bold">به مکتب وبلاگ خوش آمدید</h1>
+        <p class="lead">دنیای کلمات، جایی برای خواندن و نوشتن ایده‌های ناب</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+       
+        <div class="col-lg-8">
+
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var post in Model)
+                {
+                    <div class="blog-card">
+                        <div class="row g-0">
+                            
+                            <div class="col-md-5 blog-img-container">
+                                @if (!string.IsNullOrEmpty(post.ImagePost))
+                                {
+                                    <img src="~/images/posts/@post.ImagePost" class="blog-img" alt="@post.Title">
+                                }
+                                else
+                                {
+                                    <img src="https://via.placeholder.com/400x300?text=No+Image" class="blog-img" alt="Default">
+                                }
+                            </div>
+
+                          
+                            <div class="col-md-7">
+                                <div class="blog-content h-100 d-flex flex-column justify-content-between">
+                                    <div>
+                                      
+                                        <a asp-action="Index" asp-route-categoryId="@post.CategoryId" class="blog-category text-decoration-none">
+                                            # @(post.CategoryName ?? "بدون دسته")
+                                        </a>
+
+                                        <h3 class="blog-title">
+                                            <a asp-controller="Post" asp-action="Detail" asp-route-id="@post.Id">
+                                                @post.Title
+                                            </a>
+                                        </h3>
+
+                                        <p class="blog-desc">
+                                            @post.Description
+                                        </p>
+                                    </div>
+
+                                    <div class="blog-footer bg-transparent border-0 p-0 mt-3">
+                                        <span>📅 @post.CreatedAt.ToShortDateString()</span>
+                                        <a asp-controller="Post" asp-action="Detail" asp-route-postId="@post.Id" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            ادامه مطلب &larr;
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info text-center p-5 rounded-3 shadow-sm">
+                    <h4>📭 پستی یافت نشد!</h4>
+                    <p>هنوز هیچ مطلبی در این دسته‌بندی منتشر نشده است.</p>
+                    <a asp-action="Index" class="btn btn-primary mt-2">مشاهده همه مطالب</a>
+                </div>
+            }
+
+        </div>
+
+      
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 20px; z-index: 1;">
+
+                <div class="card sidebar-card mb-4">
+                    <div class="card-header bg-white py-3 border-bottom">
+                        <h5 class="mb-0 fw-bold">📂 موضوعات داغ</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="category-list">
+                            <a asp-action="Index" asp-route-categoryId="0">🌍 همه مطالب</a>
+
+                            @if (categories != null)
+                            {
+                                @foreach (var cat in categories)
+                                {
+                                    <a asp-action="Index" asp-route-categoryId="@cat.Id">
+                                        🔹 @cat.Name
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card sidebar-card bg-primary text-white p-4 text-center">
+                    <h5>نویسنده شوید!</h5>
+                    <p class="small opacity-75">شما هم می‌توانید دانش خود را در مکتب وبلاگ به اشتراک بگذارید.</p>
+                    <a asp-controller="Authentication" asp-action="Register" class="btn btn-light text-primary w-100 rounded-pill">
+                        ثبت نام نویسنده
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </div>

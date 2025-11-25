@@ -1,27 +1,30 @@
+using App.Domain.AppServices.CategoryAgg;
+using App.Domain.Core.Contracts.CategoryAgg.AppService;
+using App.Domain.Core.Contracts.PostAgg.AppService;
+using App.Domain.Core.Dtos.PostAgg;
 using App.EndPoints.MVC.HWW21.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace App.EndPoints.MVC.HWW21.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(IPostAppService _postAppService , ICategoryAppService categoryAppService ) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
 
-        public HomeController(ILogger<HomeController> logger)
+        public IActionResult Index(int? categoryId)
         {
-            _logger = logger;
+
+            List<PostInfoDto> postInfoDtos= _postAppService.GetAll(categoryId);
+
+            var categories = categoryAppService.GetAll();
+            ViewBag.Categories = categories;
+
+            return View(postInfoDtos);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+     
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -26,6 +26,11 @@ namespace App.Domain.AppServices.CategoryAgg
            return categoryService.Edit(categoryDto);
         }
 
+        public List<CategoryDto> GetAll()
+        {
+          return  categoryService.GetAll();
+        }
+
         public List<CategoryDto> GetAllForAuthor(int authorId)
         {
            return categoryService.GetAllForAuthor(authorId);

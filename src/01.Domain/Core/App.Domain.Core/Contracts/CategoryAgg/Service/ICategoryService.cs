@@ -16,7 +16,7 @@ namespace App.Domain.Core.Contracts.CategoryAgg.Service
         public CategoryDto GetById(int categoryId);
         public int Edit(CategoryDto categoryDto);
 
-      
+        public List<CategoryDto> GetAll();
 
         public int Delete(int categoryId);
     }

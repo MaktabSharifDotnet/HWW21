@@ -16,5 +16,9 @@ namespace App.Domain.Core.Contracts.PostAgg.Repository
 
         public int Edit(UpdatePostInfoDto updatePostInfoDto);
         public int Delete(int postId);
+
+        public List<PostInfoDto> GetAll(int? categoryId);
+
+        public PostInfoDto GetDetailById(int postId);
     }
 }

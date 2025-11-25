@@ -1,0 +1,65 @@
+﻿@using App.Domain.Core.Dtos.PostAgg
+@model PostInfoDto
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+
+<link rel="stylesheet" href="~/css/blog-details.css" />
+
+<div class="container mt-5 mb-5">
+
+
+    @if (TempData["Warning"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+            @TempData["Warning"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="blog-container">
+
+        
+        @if (!string.IsNullOrEmpty(Model.ImagePost))
+        {
+            <img src="~/images/posts/@Model.ImagePost" class="blog-hero-image" alt="@Model.Title">
+        }
+        else
+        {
+          
+            <img src="https://via.placeholder.com/800x400?text=No+Image" class="blog-hero-image" alt="Default Image">
+        }
+
+   
+        <span class="badge bg-primary mb-2">@Model.CategoryName</span>
+        <h1 class="blog-title-main">@Model.Title</h1>
+
+       
+        <div class="blog-meta-data">
+            <div class="meta-item">
+                <span class="meta-icon">📅</span>
+                <span>@Model.CreatedAt.ToLongDateString()</span> 
+            </div>
+            <div class="meta-item">
+                <span class="meta-icon">✍️</span>
+           
+                <span>@(string.IsNullOrEmpty(Model.AuthorName) ? "نویسنده ناشناس" : Model.AuthorName)</span>
+            </div>
+           
+        </div>
+
+        
+        <div class="blog-body">
+         
+            @Html.Raw(Model.Description.Replace("\n", "<br>"))
+        </div>
+
+    </div>
+
+ 
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-back-floating">
+        بازگشت به خانه 🏠
+    </a>
+
+</div>

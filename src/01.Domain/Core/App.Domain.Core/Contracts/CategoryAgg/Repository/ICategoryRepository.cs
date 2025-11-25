@@ -18,5 +18,7 @@ namespace App.Domain.Core.Contracts.CategoryAgg.Repository
         public int Edit(CategoryDto categoryDto);
 
         public int Delete(int categoryId);
+
+        public List<CategoryDto> GetAll();
     }
 }

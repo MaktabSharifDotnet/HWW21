@@ -30,7 +30,7 @@ namespace App.Infra.Data.Repos.Ef.AuthorAgg
 
         public bool IsExistUsername(string username)
         {
-            return _context.Authors.Any(a => a.Username == username);
+            return _context.Authors.Any(a => a.Username == username );
         }
 
         public int Register(Author author)

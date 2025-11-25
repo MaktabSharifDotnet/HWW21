@@ -33,6 +33,11 @@ namespace App.Domain.Services.CategoryAgg
             return  categoryRepository.Edit(categoryDto);
         }
 
+        public List<CategoryDto> GetAll()
+        {
+          return categoryRepository.GetAll();
+        }
+
         public List<CategoryDto> GetAllForAuthor(int authorId)
         {
            return  categoryRepository.GetAllForAuthor(authorId);

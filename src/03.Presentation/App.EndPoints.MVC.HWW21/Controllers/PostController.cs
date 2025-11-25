@@ -183,5 +183,23 @@ namespace App.EndPoints.MVC.HWW21.Controllers
 
         }
 
+        public IActionResult Detail(int postId) 
+        {
+
+            try 
+            {
+                PostInfoDto postInfoDto= postAppService.GetDetailById(postId);
+
+                return View(postInfoDto);
+            }
+            catch(Exception ex) 
+            {
+                TempData["Warning"] = ex.Message;
+                return RedirectToAction("index", "Author");
+
+            }
+
+        }
+
     }
 }

@@ -26,6 +26,11 @@ namespace App.Domain.AppServices.PostAgg
            return postService.Edit(updatePostInfoDto);
         }
 
+        public List<PostInfoDto> GetAll(int? categoryId = null)
+        {
+           return postService.GetAll(categoryId);
+        }
+
         public List<PostDto> GetAllForAuthor(int AuthorId)
         {
             return postService.GetForAuthor(AuthorId);
@@ -34,6 +39,11 @@ namespace App.Domain.AppServices.PostAgg
         public UpdatePostInfoDto GetById(int postId)
         {
            return postService.GetById(postId);
+        }
+
+        public PostInfoDto GetDetailById(int postId)
+        {
+           return postService.GetDetailById(postId);
         }
     }
 }

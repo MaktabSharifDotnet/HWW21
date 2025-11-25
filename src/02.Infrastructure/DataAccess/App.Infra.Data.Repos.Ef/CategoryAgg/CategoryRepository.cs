@@ -50,6 +50,18 @@ namespace App.Infra.Data.Repos.Ef.CategoryAgg
 
         }
 
+        public List<CategoryDto> GetAll()
+        {
+           return _context.Categories.AsNoTracking()
+                .Select(c=> new CategoryDto 
+                {
+                   Id = c.Id,
+                   Name = c.Name,
+
+                }).ToList();
+
+        }
+
         public List<CategoryDto> GetAllForAuthor(int authorId)
         {
 
