@@ -16,5 +16,6 @@ namespace App.Domain.Core.Contracts.PostAgg.AppService
         public UpdatePostInfoDto GetById(int postId);
 
         public int Edit(UpdatePostInfoDto updatePostInfoDto);
+        public int Delete(int postId);
     }
 }

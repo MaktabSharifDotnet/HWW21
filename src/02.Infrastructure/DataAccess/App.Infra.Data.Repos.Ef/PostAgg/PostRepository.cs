@@ -30,6 +30,18 @@ namespace App.Infra.Data.Repos.Ef.PostAgg
             return post.Id;
         }
 
+        public int Delete(int postId)
+        {
+            Post? post= _context.Posts.FirstOrDefault(p => p.Id == postId);
+            if (post==null)
+            {
+                throw new Exception("همچین پستی موجود نیست.");
+            }
+
+            post.IsDeleted = true;
+            return _context.SaveChanges();
+        }
+
         public int Edit(UpdatePostInfoDto updatePostInfoDto)
         {
             Post? post=_context.Posts.FirstOrDefault(p => p.Id == updatePostInfoDto.Id);

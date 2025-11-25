@@ -32,17 +32,16 @@ namespace App.EndPoints.MVC.HWW21.Controllers
             try
             {
                 int categoryId=categoryAppService.Create(category);
-                if (categoryId>0)
+                if (categoryId<0)
                 {
-                    TempData["Success"]= "دسته بندی با موفقیت اضافه شد.";
-                    return RedirectToAction("Index","Author");
-                }
-                else 
-                {
-                   
+
                     TempData["Warning"] = "فرآیند ایجاد دسته بندی با خطا مواجه شد دوباره تلاش کنید.";
                     return View(createCategoryViewModel);
+
                 }
+                
+              
+                return RedirectToAction("Index", "Author");
             }
             catch (Exception ex) 
             {
@@ -108,6 +107,8 @@ namespace App.EndPoints.MVC.HWW21.Controllers
             return RedirectToAction("Index","Author");
         }
 
+
+        [HttpPost]
         public IActionResult Delete(int categoryId) 
         {
             if (LocalStorage.AuthorLoginId == 0)

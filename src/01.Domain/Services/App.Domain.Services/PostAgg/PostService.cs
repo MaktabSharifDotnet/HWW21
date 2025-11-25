@@ -16,6 +16,11 @@ namespace App.Domain.Services.PostAgg
             return postRepository.Create(createPostDto);
         }
 
+        public int Delete(int postId)
+        {
+           return postRepository.Delete(postId);
+        }
+
         public int Edit(UpdatePostInfoDto updatePostInfoDto)
         {
            return postRepository.Edit(updatePostInfoDto);

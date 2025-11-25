@@ -101,7 +101,6 @@ namespace App.EndPoints.MVC.HWW21.Controllers
   
         }
 
-
         [HttpPost]
         public IActionResult Edit(UpdatePostViewModel  updatePostViewModel) 
         {
@@ -153,6 +152,35 @@ namespace App.EndPoints.MVC.HWW21.Controllers
                 return View(updatePostViewModel);
             }
              
+        }
+
+
+        [HttpPost]
+        public IActionResult Delete(int postId) 
+        {
+
+            if (LocalStorage.AuthorLoginId == 0)
+            {
+                return RedirectToAction("Login", "Authentication");
+            }
+            try 
+            {
+                int result = postAppService.Delete(postId);
+                if (result < 0) 
+                {
+                    TempData["Warning"] = "خطایی رخ داده دوباره تلاش کنید.";
+                    return RedirectToAction("index", "Author");
+                }
+
+            }
+            catch(Exception ex) 
+            {
+                TempData["Warning"] = ex.Message;
+                return RedirectToAction("index", "Author");
+            }
+
+            return RedirectToAction("index", "Author");
+
         }
 
     }
