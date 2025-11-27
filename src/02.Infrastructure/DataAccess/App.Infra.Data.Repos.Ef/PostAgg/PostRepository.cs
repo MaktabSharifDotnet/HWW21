@@ -145,5 +145,10 @@ namespace App.Infra.Data.Repos.Ef.PostAgg
                 })
                 .ToList();
         }
+
+        public bool IsExistByPostId(int postId)
+        {
+            return _context.Posts.Any(p=>p.Id==postId);
+        }
     }
 }

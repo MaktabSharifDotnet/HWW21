@@ -1,42 +1,64 @@
 ﻿/* wwwroot/css/home-style.css */
 
-/* استایل کلی بدنه برای حس مینیمال */
 body {
-    background-color: #fcfcfc; /* کمی خاکستری خیلی روشن */
+    background-color: #f9fbfd; /* پس‌زمینه روشن و مدرن */
 }
+
+/* بخش هیرو (Hero) */
+.hero-section {
+    padding: 80px 0;
+    text-align: center;
+    background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%); /* گرادینت بنفش-آبی */
+    color: white;
+    border-radius: 0 0 50px 50px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 30px rgba(78, 84, 200, 0.2);
+}
+
+    .hero-section h1 {
+        text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
 
 /* کارت پست‌ها */
 .blog-card {
     border: none;
-    border-radius: 15px;
+    border-radius: 16px;
     background: #fff;
-    transition: all 0.3s ease;
-    overflow: hidden; /* برای اینکه عکس از گردی کارت بیرون نزنه */
-    margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.03); /* سایه خیلی ملایم */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.04);
 }
 
     .blog-card:hover {
-        transform: translateY(-5px); /* کمی میره بالا */
-        box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
     }
 
 /* تصویر پست */
 .blog-img-container {
-    height: 220px; /* ارتفاع ثابت */
+    height: 240px;
     overflow: hidden;
     position: relative;
+}
+
+/* ریسپانسیو کردن ارتفاع عکس در دسکتاپ */
+@media (min-width: 768px) {
+    .blog-img-container {
+        height: 100%;
+        min-height: 220px;
+    }
 }
 
 .blog-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* کلید طلایی فیت شدن */
-    transition: transform 0.5s ease;
+    object-fit: cover;
+    transition: transform 0.6s ease;
 }
 
 .blog-card:hover .blog-img {
-    transform: scale(1.05); /* زوم شدن عکس موقع هاور */
+    transform: scale(1.08);
 }
 
 /* محتوای متنی */
@@ -45,78 +67,101 @@ body {
 }
 
 .blog-category {
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: #0d6efd;
-    text-transform: uppercase;
-    margin-bottom: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #4e54c8;
+    background-color: rgba(78, 84, 200, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 12px;
     display: inline-block;
+    transition: all 0.2s;
 }
 
+    .blog-category:hover {
+        background-color: #4e54c8;
+        color: #fff;
+    }
+
 .blog-title {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 800;
-    color: #333;
-    margin-bottom: 15px;
-    line-height: 1.5;
+    margin-bottom: 12px;
+    line-height: 1.4;
 }
 
     .blog-title a {
         text-decoration: none;
-        color: inherit;
+        color: #2c3e50;
         transition: color 0.2s;
     }
 
         .blog-title a:hover {
-            color: #0d6efd;
+            color: #4e54c8;
         }
 
 .blog-desc {
-    color: #666;
+    color: #6c757d;
     font-size: 0.95rem;
-    line-height: 1.8;
-    margin-bottom: 20px;
-    text-align: justify;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    /* محدود کردن متن به 3 خط */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.blog-footer {
-    border-top: 1px solid #eee;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #999;
-    font-size: 0.85rem;
-}
-
-/* سایدبار دسته‌بندی‌ها */
+/* سایدبار */
 .sidebar-card {
     border: none;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
     overflow: hidden;
 }
 
 .category-list a {
     display: block;
-    padding: 12px 20px;
+    padding: 14px 20px;
     color: #555;
     text-decoration: none;
-    border-bottom: 1px solid #f1f1f1;
-    transition: all 0.2s;
+    border-bottom: 1px solid #f8f9fa;
+    transition: all 0.2s ease;
+    font-weight: 500;
 }
+
+    .category-list a:last-child {
+        border-bottom: none;
+    }
 
     .category-list a:hover {
         background-color: #f8f9fa;
-        color: #0d6efd;
-        padding-right: 25px; /* حرکت به چپ */
+        color: #4e54c8;
+        padding-right: 25px;
     }
 
-.hero-section {
-    padding: 60px 0;
-    text-align: center;
+/* باکس گرادینت سایدبار */
+.bg-gradient-primary {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-radius: 0 0 30px 30px;
-    margin-bottom: 40px;
 }
+
+/* دکمه‌ها */
+.btn-primary {
+    background-color: #4e54c8;
+    border-color: #4e54c8;
+}
+
+    .btn-primary:hover {
+        background-color: #3f44a5;
+        border-color: #3f44a5;
+    }
+
+.btn-outline-primary {
+    color: #4e54c8;
+    border-color: #4e54c8;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #4e54c8;
+        color: white;
+    }

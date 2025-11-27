@@ -1,0 +1,160 @@
+﻿@using App.Domain.Core.Dtos.CommentAgg
+@using App.Domain.Core.Enums.CommentAgg
+@model List<CommentDto>
+
+@{
+    ViewData["Title"] = "مدیریت نظرات پست";
+    
+    var postId = ViewBag.PostId;
+}
+
+
+<link rel="stylesheet" href="~/css/comment-style.css" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<div class="container mt-5">
+
+  
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <div>
+            <h2 class="mb-1">💬 مدیریت نظرات</h2>
+            <p class="text-muted mb-0">لیست نظرات ثبت شده برای این پست</p>
+        </div>
+       
+        <a asp-controller="Author" asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-right"></i> بازگشت به داشبورد
+        </a>
+    </div>
+
+  
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Warning"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["Warning"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+   
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var comment in Model)
+            {
+                <div class="col-12 mb-3">
+                    <div class="comment-card p-3">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap">
+
+                           
+                            <div class="d-flex align-items-center gap-3 mb-3 mb-md-0">
+                                <div class="comment-avatar">
+                                  
+                                    @(string.IsNullOrEmpty(comment.FullName) ? "?" : comment.FullName.Substring(0, 1))
+                                </div>
+                                <div>
+                                    <div class="comment-author-name">@comment.FullName</div>
+                                    <div class="comment-date">
+                                        <span>@comment.CreatedAt.ToString("yyyy/MM/dd HH:mm")</span>
+                                        <span class="mx-2 text-muted">•</span>
+                                        <span>@comment.Email</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                          
+                            <div>
+                                @if (comment.Status == StatusEnum.Pending)
+                                {
+                                    <span class="badge badge-status status-pending">
+                                        <i class="bi bi-hourglass-split"></i> در انتظار تایید
+                                    </span>
+                                }
+                                else if (comment.Status == StatusEnum.Approved)
+                                {
+                                    <span class="badge badge-status status-approved">
+                                        <i class="bi bi-check-circle-fill"></i> تایید شده
+                                    </span>
+                                }
+                                else if (comment.Status == StatusEnum.Rejected)
+                                {
+                                    <span class="badge badge-status status-rejected">
+                                        <i class="bi bi-x-circle-fill"></i> رد شده
+                                    </span>
+                                }
+                            </div>
+                        </div>
+
+                        <hr class="my-3 text-muted opacity-25">
+
+                        <div class="comment-body">
+                           
+                            <div class="mb-2 comment-score">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= comment.Score)
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-star text-muted opacity-25"></i>
+                                    }
+                                }
+                            </div>
+
+                            
+                            <p class="card-text text-dark mb-0" style="line-height: 1.6;">
+                                @comment.Text
+                            </p>
+                        </div>
+
+                       
+                        @if (comment.Status == StatusEnum.Pending)
+                        {
+                            <div class="d-flex justify-content-end gap-2 mt-3 pt-3 border-top border-light">
+                               
+                                <form asp-controller="Author" asp-action="ChangeCommentStatus" method="post">
+                                    <input type="hidden" name="commentId" value="@comment.Id" />
+                                    <input type="hidden" name="PostId" value="@comment.PostId" />
+                                    <input type="hidden" name="status" value="Approved" /> 
+
+                                    <button type="submit" class="btn btn-action btn-approve">
+                                        <i class="bi bi-check-lg"></i> تایید
+                                    </button>
+                                </form>
+
+                                
+                                <form asp-controller="Author" asp-action="ChangeCommentStatus" method="post">
+                                    <input type="hidden" name="commentId" value="@comment.Id" />
+                                    <input type="hidden" name="PostId" value="@comment.PostId" />
+                                    <input type="hidden" name="status" value="Rejected" />
+
+                                    <button type="submit" class="btn btn-action btn-reject">
+                                        <i class="bi bi-x-lg"></i> رد
+                                    </button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+       
+        <div class="empty-state shadow-sm">
+            <i class="bi bi-chat-square-dots"></i>
+            <h4>هنوز نظری ثبت نشده است</h4>
+            <p>برای این پست هنوز هیچ کاربری نظری ارسال نکرده است.</p>
+        </div>
+    }
+</div>

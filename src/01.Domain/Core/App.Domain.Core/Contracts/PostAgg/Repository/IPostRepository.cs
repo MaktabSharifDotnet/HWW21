@@ -20,5 +20,7 @@ namespace App.Domain.Core.Contracts.PostAgg.Repository
         public List<PostInfoDto> GetAll(int? categoryId);
 
         public PostInfoDto GetDetailById(int postId);
+
+        public bool IsExistByPostId(int postId);
     }
 }

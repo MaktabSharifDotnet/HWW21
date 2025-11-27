@@ -1,4 +1,5 @@
 using App.Domain.AppServices.CategoryAgg;
+using App.Domain.AppServices.CommentAgg;
 using App.Domain.AppServices.PostAgg;
 using App.Domain.Core.Contracts.AuthorAgg.AppService;
 using App.Domain.Core.Contracts.AuthorAgg.Repository;
@@ -6,17 +7,22 @@ using App.Domain.Core.Contracts.AuthorAgg.Service;
 using App.Domain.Core.Contracts.CategoryAgg.AppService;
 using App.Domain.Core.Contracts.CategoryAgg.Repository;
 using App.Domain.Core.Contracts.CategoryAgg.Service;
+using App.Domain.Core.Contracts.CommentAgg.Repository;
+using App.Domain.Core.Contracts.CommentAgg.Service;
 using App.Domain.Core.Contracts.PostAgg.AppService;
 using App.Domain.Core.Contracts.PostAgg.Repository;
 using App.Domain.Core.Contracts.PostAgg.Service;
 using App.Domain.Services.AuthorAgg;
 using App.Domain.Services.CategoryAgg;
+using App.Domain.Services.CommentAgg;
 using App.Domain.Services.PostAgg;
 using App.Infra.Data.Repos.Ef.AuthorAgg;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
+using App.Infra.Data.Repos.Ef.CommentAgg;
 using App.Infra.Data.Repos.Ef.PostAgg;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.EntityFrameworkCore;
+
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -39,6 +45,12 @@ builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IPostAppService, PostAppService>();
+
+
+builder.Services.AddScoped<ICommentRepository, CommnetRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentAppService, CommentAppService>();
+
 
 
 var app = builder.Build();

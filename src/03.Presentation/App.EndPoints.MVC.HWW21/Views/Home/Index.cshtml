@@ -3,26 +3,27 @@
 @model List<PostInfoDto>
 
 @{
-    ViewData["Title"] = "مکتب وبلاگ";
-   
+    ViewData["Title"] = "مکتب وبلاگ - خانه";
     var categories = ViewBag.Categories as List<CategoryDto>;
 }
 
 
 <link rel="stylesheet" href="~/css/home-style.css" />
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
 
 <div class="hero-section">
     <div class="container">
-        <h1 class="display-4 fw-bold">به مکتب وبلاگ خوش آمدید</h1>
-        <p class="lead">دنیای کلمات، جایی برای خواندن و نوشتن ایده‌های ناب</p>
+        <h1 class="display-4 fw-bold mb-3">به مکتب وبلاگ خوش آمدید</h1>
+        <p class="lead opacity-90">دنیای کلمات، جایی برای خواندن و نوشتن ایده‌های ناب</p>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
 
-       
+    
         <div class="col-lg-8">
 
             @if (Model != null && Model.Any())
@@ -31,43 +32,73 @@
                 {
                     <div class="blog-card">
                         <div class="row g-0">
+
                             
                             <div class="col-md-5 blog-img-container">
-                                @if (!string.IsNullOrEmpty(post.ImagePost))
-                                {
-                                    <img src="~/images/posts/@post.ImagePost" class="blog-img" alt="@post.Title">
-                                }
-                                else
-                                {
-                                    <img src="https://via.placeholder.com/400x300?text=No+Image" class="blog-img" alt="Default">
-                                }
+                                <a asp-controller="Post" asp-action="Detail" asp-route-id="@post.Id">
+                                    @if (!string.IsNullOrEmpty(post.ImagePost))
+                                    {
+                                        <img src="~/images/posts/@post.ImagePost" class="blog-img" alt="@post.Title">
+                                    }
+                                    else
+                                    {
+                                        <img src="https://via.placeholder.com/400x300?text=No+Image" class="blog-img" alt="Default">
+                                    }
+                                </a>
+                                <div class="blog-overlay"></div>
                             </div>
 
-                          
+                         
                             <div class="col-md-7">
                                 <div class="blog-content h-100 d-flex flex-column justify-content-between">
                                     <div>
                                       
                                         <a asp-action="Index" asp-route-categoryId="@post.CategoryId" class="blog-category text-decoration-none">
-                                            # @(post.CategoryName ?? "بدون دسته")
+                                            <i class="bi bi-folder2-open me-1"></i> @(post.CategoryName ?? "بدون دسته")
                                         </a>
 
+                                       
                                         <h3 class="blog-title">
                                             <a asp-controller="Post" asp-action="Detail" asp-route-id="@post.Id">
                                                 @post.Title
                                             </a>
                                         </h3>
 
+                                       
                                         <p class="blog-desc">
                                             @post.Description
                                         </p>
                                     </div>
 
-                                    <div class="blog-footer bg-transparent border-0 p-0 mt-3">
-                                        <span>📅 @post.CreatedAt.ToShortDateString()</span>
-                                        <a asp-controller="Post" asp-action="Detail" asp-route-postId="@post.Id" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                            ادامه مطلب &larr;
-                                        </a>
+                                    <div class="blog-footer bg-transparent border-0 p-0 mt-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        <div class="text-muted small">
+                                            <i class="bi bi-calendar-event me-1"></i> @post.CreatedAt.ToShortDateString()
+                                            <span class="mx-2">|</span>
+                                            <i class="bi bi-person me-1"></i> @post.AuthorName
+                                        </div>
+
+                                        <div class="d-flex gap-2">
+
+                                            <a asp-controller="Home" asp-action="CreateComment" asp-route-postId="@post.Id"
+                                               class="btn btn-sm btn-success rounded-pill px-3 d-flex align-items-center gap-1"
+                                               title="ثبت نظر جدید">
+                                                <i class="bi bi-pencil-square"></i> ثبت نظر
+                                            </a>
+                                            <a asp-controller="Home" asp-action="Comment" asp-route-postId="@post.Id"
+                                               class="btn btn-sm btn-outline-secondary rounded-pill px-3 d-flex align-items-center gap-1"
+                                               title="مشاهده نظرات کاربران">
+                                                <i class="bi bi-chat-text"></i> نظرات
+                                            </a>
+
+                                           
+                                            <a asp-controller="Post" asp-action="Detail" asp-route-postId="@post.Id"
+                                               class="btn btn-sm btn-primary rounded-pill px-3 d-flex align-items-center gap-1">
+                                                ادامه مطلب <i class="bi bi-arrow-left"></i>
+                                            </a>
+
+
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -77,10 +108,11 @@
             }
             else
             {
-                <div class="alert alert-info text-center p-5 rounded-3 shadow-sm">
+                <div class="alert alert-info text-center p-5 rounded-3 shadow-sm empty-alert">
+                    <i class="bi bi-journal-x display-4 mb-3 d-block"></i>
                     <h4>📭 پستی یافت نشد!</h4>
                     <p>هنوز هیچ مطلبی در این دسته‌بندی منتشر نشده است.</p>
-                    <a asp-action="Index" class="btn btn-primary mt-2">مشاهده همه مطالب</a>
+                    <a asp-action="Index" class="btn btn-outline-primary mt-2 rounded-pill px-4">مشاهده همه مطالب</a>
                 </div>
             }
 
@@ -90,20 +122,24 @@
         <div class="col-lg-4">
             <div class="sticky-top" style="top: 20px; z-index: 1;">
 
+                
                 <div class="card sidebar-card mb-4">
                     <div class="card-header bg-white py-3 border-bottom">
-                        <h5 class="mb-0 fw-bold">📂 موضوعات داغ</h5>
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-grid me-2 text-primary"></i>موضوعات داغ</h5>
                     </div>
                     <div class="card-body p-0">
                         <div class="category-list">
-                            <a asp-action="Index" asp-route-categoryId="0">🌍 همه مطالب</a>
+                            <a asp-action="Index" asp-route-categoryId="0" class="d-flex align-items-center">
+                                <i class="bi bi-collection me-2 text-muted"></i> همه مطالب
+                            </a>
 
                             @if (categories != null)
                             {
                                 @foreach (var cat in categories)
                                 {
-                                    <a asp-action="Index" asp-route-categoryId="@cat.Id">
-                                        🔹 @cat.Name
+                                    <a asp-action="Index" asp-route-categoryId="@cat.Id" class="d-flex align-items-center justify-content-between">
+                                        <span><i class="bi bi-hash me-2 text-muted"></i> @cat.Name</span>
+                                        <i class="bi bi-chevron-left small text-muted"></i>
                                     </a>
                                 }
                             }
@@ -111,13 +147,17 @@
                     </div>
                 </div>
 
-
-                <div class="card sidebar-card bg-primary text-white p-4 text-center">
-                    <h5>نویسنده شوید!</h5>
-                    <p class="small opacity-75">شما هم می‌توانید دانش خود را در مکتب وبلاگ به اشتراک بگذارید.</p>
-                    <a asp-controller="Authentication" asp-action="Register" class="btn btn-light text-primary w-100 rounded-pill">
-                        ثبت نام نویسنده
-                    </a>
+               
+                <div class="card sidebar-card bg-gradient-primary text-white p-4 text-center border-0 position-relative overflow-hidden">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 bg-pattern opacity-10"></div>
+                    <div class="position-relative">
+                        <i class="bi bi-pencil-square display-4 mb-3 d-block"></i>
+                        <h5 class="fw-bold">نویسنده شوید!</h5>
+                        <p class="small opacity-90 mb-4">شما هم می‌توانید دانش و تجربیات خود را در مکتب وبلاگ به اشتراک بگذارید.</p>
+                        <a asp-controller="Authentication" asp-action="Register" class="btn btn-light text-primary w-100 rounded-pill fw-bold shadow-sm">
+                            ثبت نام به عنوان نویسنده
+                        </a>
+                    </div>
                 </div>
 
             </div>
