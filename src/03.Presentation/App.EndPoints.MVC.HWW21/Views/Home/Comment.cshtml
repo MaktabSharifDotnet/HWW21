@@ -68,17 +68,18 @@
                                     </div>
                                 </div>
 
-                                
-                                <div class="star-rating-display" title="امتیاز: @comment.Score از ۵">
+
+                                <div class="mb-2 comment-score text-warning">
                                     @for (int i = 1; i <= 5; i++)
                                     {
+                                        
                                         if (i <= comment.Score)
                                         {
-                                            <i class="bi bi-star-fill star-filled"></i>
+                                            <i class="bi bi-star-fill"></i>
                                         }
                                         else
                                         {
-                                            <i class="bi bi-star-fill star-empty"></i>
+                                            <i class="bi bi-star text-muted opacity-25"></i>
                                         }
                                     }
                                 </div>
